@@ -1,0 +1,24 @@
+{
+  "name": "create-prolibu-plugin",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "create-prolibu": "bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "prolibu",
+    "generator",
+    "init"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "inquirer": "^9.0.0",
+    "fs-extra": "^11.0.0"
+  }
+}
