@@ -1,12 +1,19 @@
 import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
+import copy from "recursive-copy";
+import { fileURLToPath } from "url";
 import { execSync } from "child_process";
-import { copyRecursive } from "../../utils/index.js";
 import { useLogStep } from "../../composables/useLogStep.js";
-import { handleExistingFolder } from "./handleExistingFolder.js";
+import { handleExistingFolder } from "./extras/handleExistingFolder.js";
 
-export const initProjectCmd = async ({ templatesPath }) => {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const COPY_OPTS = { overwrite: true, expand: true, dot: true };
+const sharedDir = path.join(__dirname, "../../resources/shared");
+
+export const pluginInitProjectCmd = async ({ templatesPath }) => {
   const {
     folderName,
     language,
@@ -58,42 +65,45 @@ export const initProjectCmd = async ({ templatesPath }) => {
   const selectedTemplate = language === "TypeScript" ? "ts" : "js";
 
   const { folderName: safeFolderName, projectPath } =
-    await handleExistingFolder(cwd, folderName);
+    await handleExistingFolder(process.cwd(), folderName);
 
   useLogStep(`Creating folder: ${safeFolderName}`);
   fs.mkdirSync(projectPath);
 
   useLogStep(`Copying template files (${selectedTemplate})...`);
-  copyRecursive(path.join(templatesPath, selectedTemplate), projectPath);
-
-  useLogStep(`Creating .prolibu config...`);
-  fs.copyFileSync(
-    path.join(__dirname, "../resources/.prolibu"),
-    path.join(projectPath, ".prolibu")
+  await copy(
+    path.join(templatesPath, selectedTemplate),
+    projectPath,
+    COPY_OPTS
   );
 
-  fs.copyFileSync(
-    path.join(__dirname, "../resources/shared", ".prolibu"),
-    path.join(projectPath, ".prolibu")
+  useLogStep(`Creating .prolibu config...`);
+  await copy(
+    path.join(sharedDir, ".prolibu"),
+    path.join(projectPath, ".prolibu"),
+    COPY_OPTS
   );
 
   if (usePrettier) {
     useLogStep("Setting up Prettier...");
-    fs.copyFileSync(
-      path.join(__dirname, "../resources/shared", ".prettierrc"),
-      path.join(projectPath, ".prettierrc")
+    await copy(
+      path.join(sharedDir, ".prettierrc"),
+      path.join(projectPath, ".prettierrc"),
+      COPY_OPTS
     );
-    fs.copyFileSync(
-      path.join(__dirname, "../resources/shared", ".prettierignore"),
-      path.join(projectPath, ".prettierignore")
+    await copy(
+      path.join(sharedDir, ".prettierignore"),
+      path.join(projectPath, ".prettierignore"),
+      COPY_OPTS
     );
   }
 
   if (initGit) {
     useLogStep("Copying .gitignore...");
-    fs.copyFileSync(
-      path.join(__dirname, "../resources/shared", ".gitignore"),
-      path.join(projectPath, ".gitignore")
+    await copy(
+      path.join(sharedDir, ".gitignore"),
+      path.join(projectPath, ".gitignore"),
+      COPY_OPTS
     );
 
     useLogStep("Initializing Git repository...");

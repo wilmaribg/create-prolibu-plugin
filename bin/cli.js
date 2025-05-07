@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import { fileURLToPath } from "url";
-import { initProjectCmd } from "../commands/index.js";
+import { pluginInitProjectCmd } from "../commands/index.js";
 
 // Obtener __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -24,7 +24,7 @@ function logStep(message) {
 
 // Lógica principal
 if (!isProjectInitialized) {
-  initProjectCmd();
+  pluginInitProjectCmd({ templatesPath });
 } else {
   const { componentName } = await inquirer.prompt([
     {

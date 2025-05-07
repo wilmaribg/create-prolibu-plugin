@@ -1,1 +1,1 @@
-export * from "./init-project/initProjectCmd.js";
+export * from "./plugin-init-project/pluginInitProjectCmd.js";
