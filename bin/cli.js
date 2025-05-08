@@ -3,38 +3,75 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import { fileURLToPath } from "url";
+import { Command } from "commander";
 import { pluginInitProjectCmd } from "../commands/index.js";
+import { pluginPublishCmd } from "../commands/plugin-publish/pluginPublishCmd.js";
+import { prolibuLoginCmd } from "../commands/prolibu-login/prolibuLoginCmd.js";
 
-// Obtener __dirname en ESM
+const program = new Command();
+
+// Get __dirname in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Rutas
+// Paths
 const cwd = process.cwd();
 const prolibuConfigPath = path.join(cwd, ".prolibu");
 const templatesPath = path.join(__dirname, "../resources/templates");
 
-// Verificar si ya está inicializado
-const isProjectInitialized = fs.existsSync(prolibuConfigPath);
-
-// Logs tipo paso a paso
+// Step-by-step log
 function logStep(message) {
   console.log(`🛠️  ${message}`);
 }
 
-// Lógica principal
-if (!isProjectInitialized) {
-  pluginInitProjectCmd({ templatesPath });
-} else {
-  const { componentName } = await inquirer.prompt([
-    {
-      type: "input",
-      name: "componentName",
-      message: "Enter the name of the component:",
-      validate: (input) => !!input || "Component name is required",
-    },
-  ]);
+// CLI Commands
+program
+  .name("prolibu")
+  .description("CLI to initialize and manage Prolibu projects")
+  .version("1.0.0");
 
-  logStep(`Creating component: ${componentName}`);
-  // Aquí podrías ejecutar tu lógica para crear el componente
-}
+program
+  .command("init")
+  .description("Initialize a new project")
+  .action(() => {
+    if (!fs.existsSync(prolibuConfigPath)) {
+      pluginInitProjectCmd({ templatesPath });
+    } else {
+      console.log(
+        "❗ A .prolibu configuration already exists in this project."
+      );
+    }
+  });
+
+program
+  .command("create-component")
+  .description("Create a new component inside the project")
+  .action(async () => {
+    const { componentName } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "componentName",
+        message: "Enter the component name:",
+        validate: (input) => !!input || "Component name is required",
+      },
+    ]);
+    logStep(`Creating component: ${componentName}`);
+    // Add component creation logic here
+  });
+
+program
+  .command("login")
+  .description("Log in to Prolibu")
+  .action(() => {
+    prolibuLoginCmd();
+  });
+
+program
+  .command("publish")
+  .description("Publish the component or project")
+  .action(() => {
+    logStep("Publishing...");
+    pluginPublishCmd({ templatesPath });
+  });
+
+program.parse(process.argv);

@@ -4,6 +4,8 @@ import { Auth } from "../utils/index.js";
 export const useHttpClient = () => {
   const session = Auth.session();
 
+  console.log("roge session ---->", session);
+
   if (!session) {
     throw new Error("No session found. Please log in.");
   }

@@ -4,11 +4,15 @@ import ora from "ora";
 import open from "open";
 import http from "http";
 import url from "url";
+import { fileURLToPath } from "url"; // Importamos fileURLToPath para convertir la URL en una ruta de archivo
+
+const __filename = fileURLToPath(import.meta.url); // Obtiene la ruta completa del archivo actual
+const __dirname = path.dirname(__filename); // Obtiene el directorio donde se encuentra el archivo
 
 export const Auth = () => {};
 
 const storeName = ".prolibu-auth";
-const authStorePath = path.resolve(process.cwd(), storeName);
+const authStorePath = path.resolve(__dirname, "..", storeName);
 
 Auth.store = ({ apiKey, baseUrl }, spinner) => {
   const spin = spinner || ora("Storing apiKey...").start();
@@ -43,8 +47,8 @@ Auth.delete = () => {
 
 Auth.signIn = () => {
   const devApiKey = process.env.TEST_API_KEY;
-  const baseUrl = "https://dev11.prolibu.com";
-  const signinUrl = "https://dev11.prolibu.com/v2/auth/signin";
+  const baseUrl = "https://dev10.prolibu.com";
+  const signinUrl = "https://dev10.prolibu.com/v2/auth/signin";
   const spinner = ora("Logging in...");
 
   const server = http.createServer((req, res) => {

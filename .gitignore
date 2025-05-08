@@ -238,3 +238,5 @@ $RECYCLE.BIN/
 
 .prolibu-apiKey
 .prolibu-apiKey.*
+.prolibu-auth
+package-lock.json
