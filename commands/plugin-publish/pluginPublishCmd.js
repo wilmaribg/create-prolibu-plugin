@@ -3,8 +3,10 @@ import path from "path";
 import { publisherService } from "../../http-services/publisherService.js";
 import { createFileFromPath } from "./utils/createFileFromPath.js";
 import { cleanString } from "./utils/cleanString.js";
+import { runTsFile } from "./utils/runTsFile.js";
 
 export const pluginPublishCmd = async (options) => {
+  const codePathDir = path.resolve(process.cwd(), "src");
   const packageJsonPath = path.resolve(process.cwd(), "package.json");
   const filePath = path.resolve(process.cwd(), "dist", "prolibu-plugin.js");
   const iconDirPath = path.resolve(process.cwd(), "src", "assets");
@@ -28,6 +30,13 @@ export const pluginPublishCmd = async (options) => {
   // Leer y parsear el package.json
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
 
+  const codeExtensions = [".js", ".ts", ".jsx", ".tsx"];
+  const codeFiles = fs
+    .readdirSync(path.resolve(process.cwd(), "src"))
+    .filter((file) => {
+      if (file.split(".")[0] !== "index") return false;
+      return codeExtensions.some((ext) => file.toLowerCase().endsWith(ext));
+    });
   // Buscar cualquier archivo de imagen (png, jpg, jpeg, svg, etc.) en la carpeta assets
   const imageExtensions = [".png", ".jpg", ".jpeg", ".svg", ".gif", ".bmp"];
   const iconFiles = fs
@@ -42,9 +51,11 @@ export const pluginPublishCmd = async (options) => {
   }
 
   const iconPath = path.resolve(iconDirPath, iconFiles[0]); // Usar el primer archivo de imagen encontrado
+  const codePath = path.resolve(codePathDir, codeFiles[0]);
 
   // Convertir los archivos a objetos File
   const iconFile = createFileFromPath(iconPath, iconFiles[0]);
+  const codeFile = createFileFromPath(codePath, codeFiles[0]);
   const pluginFile = createFileFromPath(filePath, "prolibu-plugin.js");
 
   try {
@@ -61,7 +72,7 @@ export const pluginPublishCmd = async (options) => {
       {
         active: true,
         icon: iconFile,
-        resources: pluginFile,
+        resources: [pluginFile],
         pluginName: cleanString(packageJson.name),
         version: cleanString(packageJson.version),
         description: cleanString(packageJson.description),

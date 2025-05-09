@@ -46,6 +46,7 @@ Auth.delete = () => {
 };
 
 Auth.signIn = () => {
+  const port = 3458;
   const devApiKey = process.env.TEST_API_KEY;
   const baseUrl = "https://dev10.prolibu.com";
   const signinUrl = "https://dev10.prolibu.com/v2/auth/signin";
@@ -53,7 +54,7 @@ Auth.signIn = () => {
 
   const server = http.createServer((req, res) => {
     const { query } = url.parse(req.url, true);
-    if (req.url.startsWith("/auth/callback")) {
+    if (req.url.startsWith("/auth")) {
       const apiKey = query.apiKey || devApiKey;
       Auth.store({ apiKey, baseUrl }, spinner);
       res.end("Login completed. You may close this window.");
@@ -61,8 +62,8 @@ Auth.signIn = () => {
     }
   });
 
-  server.listen(3456, () => {
-    const loginUrl = `${signinUrl}?redirect=http://localhost:3456/auth/callback`;
+  server.listen(port, () => {
+    const loginUrl = `${signinUrl}?redirect=https://dev10.prolibu.com/ui/spa/suite/users?callback=http://localhost:${port}/auth`;
     spinner.start();
     open(loginUrl);
   });

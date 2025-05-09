@@ -17,7 +17,7 @@ publisherService.upload = async (payload, { _id }) => {
       } else if (Array.isArray(value)) {
         value.forEach((item) => {
           // Puedes cambiar la clave si tu backend espera algo como 'resources[]'
-          formData.append(`${key}[]`, item instanceof File ? item : item);
+          formData.append(`${key}`, item instanceof File ? item : item);
         });
       } else {
         formData.append(key, value);

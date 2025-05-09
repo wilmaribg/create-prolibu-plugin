@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface ProlibuPlugin {
+export interface ProlibuComponent {
   label: string;
   icon?: string;
   active?: boolean;
@@ -11,7 +11,7 @@ export interface ProlibuPlugin {
 }
 
 export interface ProlibuPluginsConfig {
-  plugins: ProlibuPlugin[];
+  components: ProlibuComponent[];
 }
 
 declare global {
