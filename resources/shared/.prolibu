@@ -1,10 +1,10 @@
 export default () => ({
-  type: "plugin",
+  type: 'plugin',
   apiKey: process.env.PROLIBU_ACCOUNT_API_KEY,
-  apiUrl: process.env.PROLIBU_ACCOUNT_API_URL,
+  account: process.env.PROLIBU_ACCOUNT_API_URL,
   build: {
     output: {
-      path: "dist",
+      path: 'dist',
     },
   },
 });
