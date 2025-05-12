@@ -1,12 +1,16 @@
 import React from "react";
 
+type ProlibuPluginContext = (
+  node: HTMLElement,
+  opts?: Record<string, any>
+) => void;
 export interface ProlibuComponent {
   label: string;
   icon?: string;
   active?: boolean;
   containerId: string;
   description?: string;
-  component: React.ComponentType<any>;
+  render: ProlibuPluginContext;
   settings?: Record<string, any>;
 }
 
