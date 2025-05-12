@@ -1,7 +1,7 @@
 export default function insertStylesFunction(element, options) {
   const waitForElements = (attempts = 0) => {
     return new Promise((resolve) => {
-      if (attempts > 10) return resolve([]);
+      if (attempts > 100) return resolve([]);
       const selector = `[data-plugin-library="${process.env.libraryName}"]`;
       const elements = document.querySelectorAll(selector);
       if (elements.length > 0) return resolve(elements);
