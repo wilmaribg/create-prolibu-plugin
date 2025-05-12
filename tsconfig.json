@@ -19,6 +19,6 @@
       "@components/*": ["src/components/*"]
     }
   },
-  "include": ["plugins/**/*"],
+  "include": ["plugins/**/*", "commands/plugin-build/**/*"],
   "exclude": ["node_modules", "dist"]
 }

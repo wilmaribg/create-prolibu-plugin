@@ -4,9 +4,12 @@ import path from "path";
 import inquirer from "inquirer";
 import { fileURLToPath } from "url";
 import { Command } from "commander";
-import { pluginInitProjectCmd } from "../commands/index.js";
-import { pluginPublishCmd } from "../commands/plugin-publish/pluginPublishCmd.js";
-import { prolibuLoginCmd } from "../commands/prolibu-login/prolibuLoginCmd.js";
+import {
+  pluginBuildCmd,
+  pluginInitProjectCmd,
+  pluginPublishCmd,
+  prolibuLoginCmd,
+} from "../commands/index.js";
 
 const program = new Command();
 
@@ -72,6 +75,14 @@ program
   .action(() => {
     logStep("Publishing...");
     pluginPublishCmd({ templatesPath });
+  });
+
+program
+  .command("build")
+  .description("Build the project")
+  .action(() => {
+    logStep("Building...");
+    pluginBuildCmd();
   });
 
 program.parse(process.argv);
