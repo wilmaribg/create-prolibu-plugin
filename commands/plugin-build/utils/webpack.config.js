@@ -1,7 +1,7 @@
 import path from "path";
 import webpack from "webpack";
 import TerserPlugin from "terser-webpack-plugin";
-import { maningPlugin } from "../../../utils/index.js";
+import { pluginName } from "../../../utils/index.js";
 import insertStylesFunction from "./insertStylesFunction.js";
 
 export default {
@@ -9,9 +9,9 @@ export default {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(process.cwd(), "dist"),
-    filename: `${maningPlugin()}.js`,
+    filename: `${pluginName()}.js`,
     library: {
-      name: maningPlugin(),
+      name: pluginName(),
       type: "umd",
       export: "default",
     },
@@ -23,7 +23,7 @@ export default {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.libraryName": JSON.stringify(maningPlugin()),
+      "process.env.libraryName": JSON.stringify(pluginName()),
     }),
   ],
   module: {

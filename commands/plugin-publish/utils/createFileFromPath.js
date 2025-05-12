@@ -17,7 +17,6 @@ const getMimeType = (fileName) => {
 
 // Function to convert a file path to a File object
 export const createFileFromPath = (filePath, fileName) => {
-  console.log("roge fileName ---->", fileName);
   const fileBuffer = fs.readFileSync(filePath); // Read the file into a buffer
   const file = new File([fileBuffer], fileName, {
     type: getMimeType(fileName),
