@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["dom", "esnext"],
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {
+      "@utils/*": ["src/utils/*"],
+      "@components/*": ["src/components/*"]
+    }
+  },
+  "include": ["plugins/**/*", "commands/plugin-build/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
