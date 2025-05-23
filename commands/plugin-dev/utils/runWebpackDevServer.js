@@ -2,7 +2,7 @@ import path from "path";
 import webpack from "webpack";
 import { fileURLToPath } from "url";
 import WebpackDevServer from "webpack-dev-server";
-import config from "./webpack.config.js"; // or pass it as param
+import config from "../playground/webpack.config.js"; // or pass it as param
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,10 +15,9 @@ export const runWebpackDevServer = async (webpackConfig = config) => {
     open: true,
     port: 4500,
     liveReload: true,
+    host: "localhost",
     ...webpackConfig.devServer,
   };
-
-  console.log("roge devServerOptions ---->", devServerOptions);
 
   const devServer = new WebpackDevServer(compiler, devServerOptions);
 

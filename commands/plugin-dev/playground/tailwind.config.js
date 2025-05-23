@@ -4,8 +4,5 @@ export default {
   theme: {
     extend: {},
   },
-  theme: {
-    extend: {},
-  },
   plugins: [],
 };

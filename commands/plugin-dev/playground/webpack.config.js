@@ -7,8 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-  entry: path.resolve(__dirname, "../playground/index.tsx"), // cambia a tsx si usas TSX
   mode: "development",
+  entry: path.resolve(__dirname, "./index.tsx"), // cambia a tsx si usas TSX
   output: {
     path: path.resolve(__dirname, "dist-playground"),
     filename: "bundle.js",
@@ -17,9 +17,9 @@ export default {
   devtool: "cheap-module-source-map",
 
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss"],
     alias: {
-      "@": path.resolve(__dirname, "../playground"),
+      "@": path.resolve(__dirname, "."),
     },
   },
 
@@ -41,19 +41,19 @@ export default {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
         test: /\.s[ac]ss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
       },
     ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "../playground/index.html"),
+      template: path.resolve(__dirname, "./index.html"),
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
   ],
 };
