@@ -1,4 +1,5 @@
 export default function insertStylesFunction(element, options) {
+  console.log("roge krosty insertStylesFunction ---->", element);
   const waitForElements = (attempts = 0) => {
     return new Promise((resolve) => {
       if (attempts > 100) return resolve([]);
@@ -12,6 +13,7 @@ export default function insertStylesFunction(element, options) {
   };
 
   waitForElements().then((nodes) => {
+    console.log("roge krosty waitForElements ---->", nodes);
     nodes.forEach((el) => {
       if (!el?.shadowRoot) return;
 

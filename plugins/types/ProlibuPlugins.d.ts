@@ -11,7 +11,7 @@ export interface ProlibuComponent {
   containerId: string;
   description?: string;
   render: ProlibuPluginContext;
-  styles: string[];
+  styles?: string[];
   formSchema?: Record<string, any>;
 }
 

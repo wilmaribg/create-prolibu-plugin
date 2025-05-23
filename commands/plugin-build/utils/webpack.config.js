@@ -2,7 +2,8 @@ import path from "path";
 import webpack from "webpack";
 import TerserPlugin from "terser-webpack-plugin";
 import { pluginName } from "../../../utils/index.js";
-import insertStylesFunction from "./insertStylesFunction.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import EmbedCssToPrototypePlugin from "./EmbedCssToPrototypePlugin.js";
 
 export default {
   mode: "production",
@@ -25,6 +26,8 @@ export default {
     new webpack.DefinePlugin({
       "process.env.libraryName": JSON.stringify(pluginName()),
     }),
+    new MiniCssExtractPlugin({ filename: `${pluginName()}.css` }),
+    new EmbedCssToPrototypePlugin({ libraryName: pluginName() }),
   ],
   module: {
     rules: [
@@ -43,12 +46,7 @@ export default {
         exclude: /node_modules/,
         include: path.resolve(process.cwd(), "src"),
         use: [
-          {
-            loader: "style-loader",
-            options: {
-              insert: insertStylesFunction,
-            },
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
           },

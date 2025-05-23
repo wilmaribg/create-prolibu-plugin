@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Versión de JS de salida
+    "module": "ESNext", // Módulos para bundler moderno (Webpack)
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Librerías que usará TS
+    "allowJs": true, // Permite archivos JS además de TS
+    "skipLibCheck": true, // Evita chequear librerías (mejora velocidad)
+    "esModuleInterop": true, // Compatibilidad con imports comunes
+    "allowSyntheticDefaultImports": true, // Importaciones por defecto
+    "strict": true, // Habilita todas las verificaciones estrictas
+    "forceConsistentCasingInFileNames": true, // Evita problemas con mayúsculas/minúsculas
+    "moduleResolution": "node", // Resolución estilo Node.js
+    "resolveJsonModule": true, // Importar JSON como módulos
+    "isolatedModules": true, // Requiere que cada archivo sea un módulo independiente
+    "noEmit": true, // No emitir archivos .js (lo hace Webpack)
+    "jsx": "react-jsx" // Nueva transformación JSX (React 17+)
+  },
+  "include": ["src", "playground"], // Directorios donde TS buscará código
+  "exclude": ["node_modules", "dist"] // Carpetas a excluir
+}

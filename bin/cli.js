@@ -10,6 +10,7 @@ import {
   pluginPublishCmd,
   prolibuLoginCmd,
 } from "../commands/index.js";
+import { pluginDevCmd } from "../commands/plugin-dev/pluginDevCmd.js";
 
 const program = new Command();
 
@@ -83,6 +84,14 @@ program
   .action(() => {
     logStep("Building...");
     pluginBuildCmd();
+  });
+
+program
+  .command("dev")
+  .description("Start the plugin in development mode")
+  .action(() => {
+    logStep("Starting development mode...");
+    pluginDevCmd();
   });
 
 program.parse(process.argv);
