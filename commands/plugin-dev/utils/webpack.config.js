@@ -19,7 +19,7 @@ export default {
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: {
-      "@plugin": path.resolve(__dirname, "../playground/src"),
+      "@": path.resolve(__dirname, "../playground"),
     },
   },
 

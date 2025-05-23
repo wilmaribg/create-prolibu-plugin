@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "target": "ES2020", // Versión de JS de salida
     "module": "ESNext", // Módulos para bundler moderno (Webpack)
     "lib": ["DOM", "DOM.Iterable", "ESNext"], // Librerías que usará TS
