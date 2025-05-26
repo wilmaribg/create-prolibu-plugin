@@ -1,12 +1,17 @@
-import React from "react";
+import React, { createContext } from "react";
 import { createRoot } from "react-dom/client";
-import DevPage from "@/src/pages/DevPage.tsx";
-import "@/src/styles/globals.css";
+import { Main } from "./Main";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
-
 root.render(
   <React.StrictMode>
-    <DevPage />
+    <Main />
   </React.StrictMode>
 );
+
+// (function waitForReact() {
+//   if (typeof React === "undefined" || typeof ReactDOM === "undefined") {
+//     setTimeout(waitForReact, 50);
+//   } else {
+//   }
+// })();

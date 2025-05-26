@@ -15,14 +15,17 @@ export default {
     clean: true,
   },
   devtool: "cheap-module-source-map",
-
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss"],
     alias: {
       "@": path.resolve(__dirname, "."),
+      $local: path.resolve(process.cwd(), "./src"),
     },
   },
-
+  // externals: {
+  //   react: "React",
+  //   "react-dom": "ReactDOM",
+  // },
   module: {
     rules: [
       {
@@ -54,6 +57,6 @@ export default {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./index.html"),
     }),
-    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };

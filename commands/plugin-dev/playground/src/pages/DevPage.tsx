@@ -14,7 +14,13 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
+import { AppContext } from "@/Main";
+import { useContext } from "react";
+import { FrameEmulator } from "../components/frame-emulator/FrameEmulator";
+
 export default function DevPage() {
+  const appContext = useContext<IAppStateType>(AppContext);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -25,24 +31,24 @@ export default function DevPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Building Your Application
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Plugin</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                <BreadcrumbPage>
+                  {appContext.currentPlugin?.title}{" "}
+                  <span className="text-xs text-muted-foreground">
+                    [{appContext.currentPlugin?.description}]
+                  </span>
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
+            {appContext.currentPlugin && <FrameEmulator />}
           </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
       </SidebarInset>
     </SidebarProvider>
