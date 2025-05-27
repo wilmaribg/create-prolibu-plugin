@@ -28,11 +28,6 @@ publisherService.upload = async (payload, { _id }) => {
   let apiUrl = "/v2/plugin";
   if (_id) apiUrl += `/${_id}`; // Si se proporciona un ID, se agrega a la URL
 
-  console.log(
-    "Sending request to API:",
-    `${httpClient.defaults.baseURL}${apiUrl}`
-  );
-
   try {
     const client = _id ? httpClient.patch : httpClient.post; // Determinar el método HTTP (PUT o POST)
     const response = await client(apiUrl, formData, {

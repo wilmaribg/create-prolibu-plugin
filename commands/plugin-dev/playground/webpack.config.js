@@ -18,14 +18,12 @@ export default {
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss"],
     alias: {
+      react: path.resolve(process.cwd(), "node_modules/react"),
+      "react-dom": path.resolve(process.cwd(), "node_modules/react-dom"),
       "@": path.resolve(__dirname, "."),
       $local: path.resolve(process.cwd(), "./src"),
     },
   },
-  // externals: {
-  //   react: "React",
-  //   "react-dom": "ReactDOM",
-  // },
   module: {
     rules: [
       {

@@ -71,27 +71,27 @@ program
   });
 
 program
-  .command("publish")
-  .description("Publish the component or project")
-  .action(() => {
-    logStep("Publishing...");
-    pluginPublishCmd({ templatesPath });
-  });
-
-program
-  .command("build")
-  .description("Build the project")
-  .action(() => {
-    logStep("Building...");
-    pluginBuildCmd();
-  });
-
-program
-  .command("dev")
-  .description("Start the plugin in development mode")
-  .action(() => {
-    logStep("Starting development mode...");
-    pluginDevCmd();
-  });
+  .command("plugin")
+  .description("Commands for working with plugins")
+  .addCommand(
+    new Command("publish").description("Publish the plugin").action(() => {
+      logStep("Publishing plugin...");
+      pluginPublishCmd({ templatesPath });
+    })
+  )
+  .addCommand(
+    new Command("build").description("Build the plugin").action(() => {
+      logStep("Building plugin...");
+      pluginBuildCmd();
+    })
+  )
+  .addCommand(
+    new Command("dev")
+      .description("Run the plugin in development mode")
+      .action(() => {
+        logStep("Starting plugin in dev mode...");
+        pluginDevCmd();
+      })
+  );
 
 program.parse(process.argv);
