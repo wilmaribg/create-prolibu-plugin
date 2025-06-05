@@ -2,7 +2,8 @@ import path from "path";
 import webpack from "webpack";
 import TerserPlugin from "terser-webpack-plugin";
 import { pluginName } from "../../../utils/index.js";
-import insertStylesFunction from "./insertStylesFunction.js";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import EmbedCssToPrototypePlugin from "./EmbedCssToPrototypePlugin.js";
 
 export default {
   mode: "production",
@@ -25,6 +26,8 @@ export default {
     new webpack.DefinePlugin({
       "process.env.libraryName": JSON.stringify(pluginName()),
     }),
+    new MiniCssExtractPlugin({ filename: `${pluginName()}.css` }),
+    new EmbedCssToPrototypePlugin({ libraryName: pluginName() }),
   ],
   module: {
     rules: [
@@ -38,22 +41,18 @@ export default {
         use: "babel-loader",
         exclude: /node_modules/,
       },
+      // CSS de node_modules
       {
-        test: /\.(css|scss)$/i,
+        test: /\.css$/,
+        include: /node_modules/,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      // CSS de tu proyecto
+      {
+        test: /\.s[ac]ss$/,
         exclude: /node_modules/,
         include: path.resolve(process.cwd(), "src"),
-        use: [
-          {
-            loader: "style-loader",
-            options: {
-              insert: insertStylesFunction,
-            },
-          },
-          {
-            loader: "css-loader",
-          },
-          "sass-loader",
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
@@ -62,7 +61,7 @@ export default {
     "react-dom": "ReactDOM",
   },
   optimization: {
-    minimize: false,
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         extractComments: false,
