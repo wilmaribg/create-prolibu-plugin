@@ -16,30 +16,21 @@ let authStorePath;
 const storeName = ".prolibu-auth";
 const authRoutePath = path.resolve(__dirname, "..", storeName);
 
-if (!fs.existsSync(authRoutePath)) {
-  const tmpobj = tmp.dirSync();
-  const authPath = path.resolve(tmpobj.name, storeName);
-  authStorePath = path.resolve(authPath);
-
-  fs.writeFileSync(
-    authRoutePath,
-    JSON.stringify({ tmp: authStorePath }, null, 2),
-    "utf-8"
-  );
-}
-
 Auth.store = ({ apiKey, baseUrl }, spinner) => {
   const spin = spinner || ora("Storing apiKey...").start();
   if (!fs.existsSync(authRoutePath)) {
-    throw new Error(
-      `Auth route path does not exist: ${authRoutePath}. Please check the path or create the file.`
-    );
+    fs.writeFileSync(authRoutePath, "", "utf-8");
   }
-  authStorePath = JSON.parse(fs.readFileSync(authRoutePath, "utf-8")).tmp;
   if (apiKey && baseUrl) {
+    const tmpDir = tmp.fileSync();
     fs.writeFileSync(
-      authStorePath,
+      tmpDir.name,
       JSON.stringify({ apiKey, baseUrl }, null, 2),
+      "utf-8"
+    );
+    fs.writeFileSync(
+      authRoutePath,
+      JSON.stringify({ tmp: tmpDir.name }, null, 2),
       "utf-8"
     );
     spin.succeed(`🔐 Token received. Connected to ${baseUrl}.`);
@@ -54,9 +45,9 @@ Auth.session = () => {
       `Auth route path does not exist: ${authRoutePath}. Please check the path or create the file.`
     );
   }
-  authStorePath = JSON.parse(fs.readFileSync(authRoutePath, "utf-8")).tmp;
-  if (fs.existsSync(authStorePath)) {
-    const data = fs.readFileSync(authStorePath, "utf-8");
+  const { tmp } = JSON.parse(fs.readFileSync(authRoutePath, "utf-8"));
+  if (fs.existsSync(tmp)) {
+    const data = fs.readFileSync(tmp, "utf-8");
     return JSON.parse(data);
   }
   return null;

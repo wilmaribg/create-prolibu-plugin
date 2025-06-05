@@ -27,7 +27,8 @@ const drawComponent = (
   opts = {} as any,
   mode = "prod"
 ) => {
-  console.log("roge createRenderFn opts ---->", opts);
+  // console.log("roge drawComponent ---->", { Component, node, opts, mode });
+  // console.log("roge createRenderFn opts ---->", opts);
   const { shadowRoot, styleSheet } = opts || ({} as any);
   const { doc, configNodeId, pluginLibrary, preferences, comCompConfig } =
     cloneDeep(opts || {});
